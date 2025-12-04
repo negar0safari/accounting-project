@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>فرم دریافت و پرداخت - شرکت حسابداری پیشرو</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        'glow': '0 0 20px rgba(14, 165, 233, 0.15)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: Vazir, sans-serif;
+            background: linear-gradient(135deg, #081c42 0%, #764ba2 100%);
+        }
+        .form-section {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-left: 4px solid #07222e;
+            transition: all 0.3s ease;
+        }
+        .form-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            border-color: #0ea5e9;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #121c46 0%, #000000 100%);
+        }
+        .floating-label {
+            transition: all 0.3s ease;
+        }
+        .input-field:focus + .floating-label,
+        .input-field:not(:placeholder-shown) + .floating-label {
+            transform: translateY(-24px) scale(0.85);
+            color: #0ea5e9;
+            background: white;
+            padding: 0 8px;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8">
+
+    <!-- هدر -->
+    <header class="max-w-6xl mx-auto mb-8">
+        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-soft p-6 mx-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-blue-600 rounded-xl flex items-center justify-center shadow-glow">
+                        <i class="fas fa-file-invoice-dollar text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">شرکت حسابداری پیشرو</h1>
+                        <p class="text-gray-600">سیستم یکپارچه مالی</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="bg-primary-50 text-primary-700 px-4 py-2 rounded-lg">
+                        <i class="fas fa-calendar-day ml-2"></i>
+                        <span id="currentDate">۱۴۰۲/۱۰/۱۵</span>
+                    </div>
+                    <button class="bg-gradient-to-r from-primary-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:shadow-glow transition-all duration-300 flex items-center">
+                        <i class="fas fa-user-circle ml-2"></i>
+                        پنل کاربری
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- محتوای اصلی -->
+    <div class="max-w-6xl mx-auto px-4">
+        <!-- هدر فرم -->
+        <div class="bg-white rounded-2xl shadow-soft p-8 mb-8 text-center relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-50 to-blue-100 rounded-full -mr-16 -mt-16"></div>
+            <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-primary-50 to-blue-100 rounded-full -ml-12 -mb-12"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold text-gray-800 mb-3">فرم دریافت و پرداخت</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    لطفا اطلاعات مالی مورد نیاز را با دقت وارد نمایید. تمامی فیلدهای ستاره‌دار الزامی می‌باشند.
+                </p>
+                <div class="flex justify-center mt-4 space-x-2">
+                    <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                    <div class="w-3 h-3 bg-blue-400 rounded-full"></div>
+                    <div class="w-3 h-3 bg-blue-300 rounded-full"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- فرم -->
+        <div class="bg-white rounded-2xl shadow-soft overflow-hidden mb-8">
+            <form id="paymentForm" class="p-1">
+                <!-- بخش اول: اطلاعات اصلی سند -->
+                <div class="form-section p-8 mb-6 rounded-xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center ml-4">
+                            <i class="fas fa-file-alt text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">اطلاعات اصلی سند</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- شماره سند -->
+                        <div class="relative">
+                            <input type="text" id="docNumber" 
+                                   class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300"
+                                   placeholder=" ">
+                            <label for="docNumber" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                شماره سند <span class="text-red-500">*</span>
+                            </label>
+                        </div>
+
+                        <!-- تاریخ سند -->
+                        <div class="relative">
+                            <input type="date" id="docDate" 
+                                   class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300"
+                                   placeholder=" ">
+                            <label for="docDate" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                تاریخ سند <span class="text-red-500">*</span>
+                            </label>
+                        </div>
+
+                        <!-- بستانکار -->
+                        <div class="relative">
+                            <select id="creditor" 
+                                    class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300 appearance-none bg-white">
+                                <option value=""></option>
+                                <option value="creditor1">شرکت توسعه تجارت کیش</option>
+                                <option value="creditor2">شرکت صنعتی بهپویان</option>
+                                <option value="creditor3">شرکت پتروشیمی مبین</option>
+                            </select>
+                            <label for="creditor" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                بستانکار <span class="text-red-500">*</span>
+                            </label>
+                            <i class="fas fa-chevron-down absolute left-4 top-4 text-gray-400"></i>
+                        </div>
+
+                        <!-- بدهکار -->
+                        <div class="relative">
+                            <select id="debtor" 
+                                    class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300 appearance-none bg-white">
+                                <option value=""></option>
+                                <option value="debtor1">شرکت فولاد مبارکه</option>
+                                <option value="debtor2">شرکت معدنی Chadormalu</option>
+                                <option value="debtor3">شرکت ملی نفت ایران</option>
+                            </select>
+                            <label for="debtor" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                بدهکار <span class="text-red-500">*</span>
+                            </label>
+                            <i class="fas fa-chevron-down absolute left-4 top-4 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بخش دوم: شرح سند و مبلغ -->
+                <div class="form-section p-8 mb-6 rounded-xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center ml-4">
+                            <i class="fas fa-money-bill-wave text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">شرح و مبلغ</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-6">
+                        <!-- شرح سند -->
+                        <div class="relative">
+                            <input type="text" id="docDescription" 
+                                   class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300"
+                                   placeholder=" ">
+                            <label for="docDescription" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                شرح سند <span class="text-red-500">*</span>
+                            </label>
+                        </div>
+
+                        <!-- شرح جدید -->
+                        <div class="relative">
+                            <input type="text" id="newDescription" 
+                                   class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300"
+                                   placeholder=" ">
+                            <label for="newDescription" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                شرح جدید
+                            </label>
+                        </div>
+
+                        <!-- مبلغ -->
+                        <div class="relative">
+                            <input type="number" id="amount" 
+                                   class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300 text-left"
+                                   placeholder=" ">
+                            <label for="amount" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                مبلغ (ریال) <span class="text-red-500">*</span>
+                            </label>
+                            <span class="absolute left-4 top-3 text-gray-500">﷼</span>
+                        </div>
+
+                        <!-- نحوه پرداخت -->
+                        <div class="relative">
+                            <select id="paymentMethod" 
+                                    class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300 appearance-none bg-white">
+                                <option value=""></option>
+                                <option value="cash">پرداخت نقدی</option>
+                                <option value="transfer">حواله بانکی</option>
+                                <option value="cheque">چک بانکی</option>
+                                <option value="card">درگاه پرداخت</option>
+                            </select>
+                            <label for="paymentMethod" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                نحوه پرداخت <span class="text-red-500">*</span>
+                            </label>
+                            <i class="fas fa-chevron-down absolute left-4 top-4 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بخش سوم: مشخصات حساب مبدا -->
+                <div class="form-section p-8 mb-6 rounded-xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center ml-4">
+                            <i class="fas fa-university text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">مشخصات حساب مبدا</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- بستانکار مبدا -->
+                        <div class="relative">
+                            <select id="sourceCreditor" 
+                                    class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300 appearance-none bg-white">
+                                <option value=""></option>
+                                <option value="sourceCreditor1">بانک ملی ایران</option>
+                                <option value="sourceCreditor2">بانک سپه</option>
+                                <option value="sourceCreditor3">بانک ملت</option>
+                            </select>
+                            <label for="sourceCreditor" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                بستانکار مبدا
+                            </label>
+                            <i class="fas fa-chevron-down absolute left-4 top-4 text-gray-400"></i>
+                        </div>
+
+                        <!-- بدهکار مبدا -->
+                        <div class="relative">
+                            <select id="sourceDebtor" 
+                                    class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300 appearance-none bg-white">
+                                <option value=""></option>
+                                <option value="sourceDebtor1">بانک تجارت</option>
+                                <option value="sourceDebtor2">بانک صادرات</option>
+                                <option value="sourceDebtor3">بانک کشاورزی</option>
+                            </select>
+                            <label for="sourceDebtor" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                بدهکار مبدا
+                            </label>
+                            <i class="fas fa-chevron-down absolute left-4 top-4 text-gray-400"></i>
+                        </div>
+
+                        <!-- شماره حساب مبدا -->
+                        <div class="relative">
+                            <input type="text" id="sourceAccount" 
+                                   class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300"
+                                   placeholder=" ">
+                            <label for="sourceAccount" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                شماره حساب مبدا
+                            </label>
+                        </div>
+
+                        <!-- تاریخ حواله -->
+                        <div class="relative">
+                            <input type="date" id="transferDate" 
+                                   class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300"
+                                   placeholder=" ">
+                            <label for="transferDate" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                تاریخ حواله
+                            </label>
+                        </div>
+
+                        <!-- شماره سند مالی -->
+                        <div class="md:col-span-2 relative">
+                            <input type="text" id="financialDocNumber" 
+                                   class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300"
+                                   placeholder=" ">
+                            <label for="financialDocNumber" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                شماره سند مالی
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بخش چهارم: مشخصات حساب مقصد -->
+                <div class="form-section p-8 mb-6 rounded-xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center ml-4">
+                            <i class="fas fa-landmark text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">مشخصات حساب مقصد</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- بستانکار مقصد -->
+                        <div class="relative">
+                            <select id="destCreditor" 
+                                    class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300 appearance-none bg-white">
+                                <option value=""></option>
+                                <option value="destCreditor1">بانک پارسیان</option>
+                                <option value="destCreditor2">بانک اقتصاد نوین</option>
+                                <option value="destCreditor3">بانک سامان</option>
+                            </select>
+                            <label for="destCreditor" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                بستانکار مقصد
+                            </label>
+                            <i class="fas fa-chevron-down absolute left-4 top-4 text-gray-400"></i>
+                        </div>
+
+                        <!-- بدهکار مقصد -->
+                        <div class="relative">
+                            <select id="destDebtor" 
+                                    class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300 appearance-none bg-white">
+                                <option value=""></option>
+                                <option value="destDebtor1">بانک پاسارگاد</option>
+                                <option value="destDebtor2">بانک کارآفرین</option>
+                                <option value="destDebtor3">بانک سینا</option>
+                            </select>
+                            <label for="destDebtor" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                بدهکار مقصد
+                            </label>
+                            <i class="fas fa-chevron-down absolute left-4 top-4 text-gray-400"></i>
+                        </div>
+
+                        <!-- شماره حساب مقصد -->
+                        <div class="md:col-span-2 relative">
+                            <input type="text" id="destAccount" 
+                                   class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300"
+                                   placeholder=" ">
+                            <label for="destAccount" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                شماره حساب مقصد
+                            </label>
+                        </div>
+
+                        <!-- توضیحات -->
+                        <div class="md:col-span-2 relative">
+                            <textarea id="description" rows="4"
+                                      class="input-field w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition-all duration-300"
+                                      placeholder=" "></textarea>
+                            <label for="description" class="floating-label absolute right-4 top-3 text-gray-500 pointer-events-none">
+                                توضیحات اضافی
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- دکمه‌های ثبت -->
+                <div class="flex flex-col sm:flex-row justify-end space-y-4 sm:space-y-0 sm:space-x-4 px-8 pb-8">
+                    <button type="button" 
+                            class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 flex items-center justify-center order-2 sm:order-1">
+                        <i class="fas fa-times ml-2"></i>
+                        انصراف
+                    </button>
+                    <button type="submit" 
+                            class="px-8 py-3 bg-gradient-to-r from-primary-500 to-blue-600 text-white rounded-xl hover:shadow-glow hover:from-primary-600 hover:to-blue-700 transition-all duration-300 flex items-center justify-center order-1 sm:order-2">
+                        <i class="fas fa-check-double ml-2"></i>
+                        ثبت نهایی اطلاعات
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- فوتر -->
+        <div class="text-center text-white/80 text-sm">
+            <p>© ۱۴۰۲ سیستم حسابداری پیشرو - کلیه حقوق محفوظ است</p>
+        </div>
+    </div>
+
+  
+    <script>
+
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('fa-IR');
+        
+        
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+        
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> در حال ثبت...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+            
+                const successDiv = document.createElement('div');
+                successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 animate-bounce';
+                successDiv.innerHTML = '<i class="fas fa-check-circle ml-2"></i> اطلاعات با موفقیت ثبت شد!';
+                document.body.appendChild(successDiv);
+                
+                
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+     
+                setTimeout(() => {
+                    successDiv.remove();
+                }, 3000);
+                
+            }, 2000);
+        });
+
+        
+        document.querySelectorAll('.input-field').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-primary-200');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-primary-200');
+            });
+        });
+    </script>
+
+</body>
+</html>
